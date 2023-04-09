@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cat Fish Game</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      background-color: #d3e0ea;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const fish = new Image();
+    fish.src = 'fish.png'; // 请将此处替换为一张适当大小的小鱼图片的URL
+
+    let fishX = Math.random() * canvas.width;
+    let fishY = Math.random() * canvas.height;
+
+    function drawFish() {
+      ctx.drawImage(fish, fishX, fishY);
+    }
+
+    function moveFish() {
+      fishX = Math.random() * canvas.width;
+      fishY = Math.random() * canvas.height;
+    }
+
+    canvas.addEventListener('mousemove', (e) => {
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      const distX = Math.abs(fishX - mouseX);
+      const distY = Math.abs(fishY - mouseY);
+      const dist = Math.sqrt(distX * distX + distY * distY);
+
+      if (dist < 50) {
+        moveFish();
+      }
+    });
+
+    function gameLoop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawFish();
+      requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
+  </script>
+</body>
+</html>
